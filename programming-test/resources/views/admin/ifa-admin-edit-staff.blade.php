@@ -125,17 +125,21 @@
                             <div class="row">
                                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
                                     <label>Name</label>
-                                    <input type="text" name="firstname" class="form-control" value="Client Name"
-                                        required />
+                                    <input type="text" name="firstname" class="form-control"
+                                        value="{{ $staff->name }}" required />
                                 </div>
                                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
                                     <label>Email</label>
-                                    <input type="email" name="email" class="form-control" value="example@email.com"
-                                        disabled />
+                                    <input type="email" name="email" class="form-control"
+                                        value="{{ $staff->email }}" disabled />
                                 </div>
                                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
                                     <label>Status</label><br />
-                                    <span class="label label-info">Invitation Sent</span>
+                                    @if ($staff->status == 'active')
+                                        <span class="label label-success">Active</span>
+                                    @else
+                                        <span class="label label-info">Invitation Sent</span>
+                                    @endif
                                 </div>
                             </div>
                         </form>
@@ -148,7 +152,7 @@
 
                         <div class="col-12">
                             <div class="table-responsive">
-                                <table class="table table-striped table-hover">
+                                <table class="table table-striped table-hover" id="assignment-table">
                                     <thead>
                                         <tr>
                                             <th>Policy</th>
@@ -160,76 +164,27 @@
                                         </tr>
                                     </thead>
                                     <tbody>
-                                        <tr>
-                                            <td>12345678</td>
-                                            <td>The Calpe RBS No. 247</td>
-                                            <td>Withrod, Martin Terence</td>
-                                            <td>Old Mutual International</td>
-                                            <td>27/07/2017</td>
-                                            <td>
-                                                <a href="#" title="Remove" class="text-danger">Remove</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>12345678</td>
-                                            <td>The Calpe RBS No. 247</td>
-                                            <td>Withrod, Martin Terence</td>
-                                            <td>Old Mutual International</td>
-                                            <td>27/07/2017</td>
-                                            <td>
-                                                <a href="#" title="Remove" class="text-danger">Remove</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>12345678</td>
-                                            <td>The Calpe RBS No. 247</td>
-                                            <td>Withrod, Martin Terence</td>
-                                            <td>Old Mutual International</td>
-                                            <td>27/07/2017</td>
-                                            <td>
-                                                <a href="#" title="Remove" class="text-danger">Remove</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>12345678</td>
-                                            <td>The Calpe RBS No. 247</td>
-                                            <td>Withrod, Martin Terence</td>
-                                            <td>Old Mutual International</td>
-                                            <td>27/07/2017</td>
-                                            <td>
-                                                <a href="#" title="Remove" class="text-danger">Remove</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>12345678</td>
-                                            <td>The Calpe RBS No. 247</td>
-                                            <td>Withrod, Martin Terence</td>
-                                            <td>Old Mutual International</td>
-                                            <td>27/07/2017</td>
-                                            <td>
-                                                <a href="#" title="Remove" class="text-danger">Remove</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>12345678</td>
-                                            <td>The Calpe RBS No. 247</td>
-                                            <td>Withrod, Martin Terence</td>
-                                            <td>Old Mutual International</td>
-                                            <td>27/07/2017</td>
-                                            <td>
-                                                <a href="#" title="Remove" class="text-danger">Remove</a>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <td>12345678</td>
-                                            <td>The Calpe RBS No. 247</td>
-                                            <td>Withrod, Martin Terence</td>
-                                            <td>Old Mutual International</td>
-                                            <td>27/07/2017</td>
-                                            <td>
-                                                <a href="#" title="Remove" class="text-danger">Remove</a>
-                                            </td>
-                                        </tr>
+                                        @if ($staff->policy->isEmpty())
+                                            <tr>
+                                                <td colspan="6">Current user has no policies</td>
+                                            </tr>
+                                        @else
+                                            @foreach ($staff->policy as $policyEntry)
+                                                <tr id="policy-row-{{ $policyEntry->id }}">
+                                                    <td>{{ $policyEntry->code }}</td>
+                                                    <td>{{ $policyEntry->plan_reference }}</td>
+                                                    <td>{{ $policyEntry->first_name }}, {{ $policyEntry->last_name }}
+                                                    </td>
+                                                    <td>{{ $policyEntry->investment_house }}</td>
+                                                    <td>{{ $policyEntry->last_operation }}</td>
+                                                    <td>
+                                                        <a href="javascript:void(0);" title="Remove"
+                                                            class="text-danger remove-policy"
+                                                            data-id="{{ $policyEntry->id }}">Remove</a>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        @endif
                                     </tbody>
                                 </table>
                             </div>
@@ -275,95 +230,23 @@
                                                     </tr>
                                                 </thead>
 
-                                                <tbody>
-                                                    <tr>
-                                                        <td>12345678</td>
-                                                        <td>The Calpe RBS No. 247</td>
-                                                        <td>Withrod, Martin Terence</td>
-                                                        <td>Old Mutual International</td>
-                                                        <td><a title="Add Client" class="text-site1"><i
-                                                                    class="fa fa-plus"></i></a></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>12345678</td>
-                                                        <td>The Calpe RBS No. 247</td>
-                                                        <td>Withrod, Martin Terence</td>
-                                                        <td>Old Mutual International</td>
-                                                        <td><a title="Add Client" class="text-site1"><i
-                                                                    class="fa fa-plus"></i></a></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>12345678</td>
-                                                        <td>The Calpe RBS No. 247</td>
-                                                        <td>Withrod, Martin Terence</td>
-                                                        <td>Old Mutual International</td>
-                                                        <td><a title="Add Client" class="text-site1"><i
-                                                                    class="fa fa-plus"></i></a></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>12345678</td>
-                                                        <td>The Calpe RBS No. 247</td>
-                                                        <td>Withrod, Martin Terence</td>
-                                                        <td>Old Mutual International</td>
-                                                        <td><a title="Add Client" class="text-site1"><i
-                                                                    class="fa fa-plus"></i></a></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>12345678</td>
-                                                        <td>The Calpe RBS No. 247</td>
-                                                        <td>Withrod, Martin Terence</td>
-                                                        <td>Old Mutual International</td>
-                                                        <td><a title="Add Client" class="text-site1"><i
-                                                                    class="fa fa-plus"></i></a></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>12345678</td>
-                                                        <td>The Calpe RBS No. 247</td>
-                                                        <td>Withrod, Martin Terence</td>
-                                                        <td>Old Mutual International</td>
-                                                        <td><a title="Add Client" class="text-site1"><i
-                                                                    class="fa fa-plus"></i></a></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>12345678</td>
-                                                        <td>The Calpe RBS No. 247</td>
-                                                        <td>Withrod, Martin Terence</td>
-                                                        <td>Old Mutual International</td>
-                                                        <td><a title="Add Client" class="text-site1"><i
-                                                                    class="fa fa-plus"></i></a></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>12345678</td>
-                                                        <td>The Calpe RBS No. 247</td>
-                                                        <td>Withrod, Martin Terence</td>
-                                                        <td>Old Mutual International</td>
-                                                        <td><a title="Add Client" class="text-site1"><i
-                                                                    class="fa fa-plus"></i></a></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>12345678</td>
-                                                        <td>The Calpe RBS No. 247</td>
-                                                        <td>Withrod, Martin Terence</td>
-                                                        <td>Old Mutual International</td>
-                                                        <td><a title="Add Client" class="text-site1"><i
-                                                                    class="fa fa-plus"></i></a></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>12345678</td>
-                                                        <td>The Calpe RBS No. 247</td>
-                                                        <td>Withrod, Martin Terence</td>
-                                                        <td>Old Mutual International</td>
-                                                        <td><a title="Add Client" class="text-site1"><i
-                                                                    class="fa fa-plus"></i></a></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>12345678</td>
-                                                        <td>The Calpe RBS No. 247</td>
-                                                        <td>Withrod, Martin Terence</td>
-                                                        <td>Old Mutual International</td>
-                                                        <td><a title="Add Client" class="text-site1"><i
-                                                                    class="fa fa-plus"></i></a></td>
-                                                    </tr>
+                                                <tbody id="unassigned-table-body">
+                                                    @foreach ($unasignedPolicy as $policy)
+                                                        <tr id="policy-unasigned-row-{{ $policy->id }}">
+                                                            <td>{{ $policy->code }}</td>
+                                                            <td>{{ $policy->plan_reference }}</td>
+                                                            <td>{{ $policy->first_name }}, {{ $policy->last_name }}
+                                                            </td>
+                                                            <td>{{ $policy->investment_house }}</td>
+                                                            <td><a href="javascript:void(0);"
+                                                                    class="text-site1 assign-policy"
+                                                                    data-staff-id="{{ $staff->id }}"
+                                                                    data-id="{{ $policy->id }}"
+                                                                    title="Add Client"><i class="fa fa-plus"></i></a>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+
                                                 </tbody>
                                             </table>
                                         </div>
@@ -400,6 +283,7 @@
 
     <script>
         var resizefunc = [];
+        const staffId = @json($staff->id);
     </script>
 
     <!-- jQuery  -->
@@ -439,11 +323,98 @@
 
             //Buttons examples
             var table = $('#datatable-buttons').DataTable({
-                lengthChange: false
+                lengthChange: true
                 //buttons: ['copy', 'excel', 'pdf']
             });
 
             table.buttons().container().appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+
+            //Todoo fix this
+            $(document).on('click', '.remove-policy', function(e) {
+                e.preventDefault();
+
+                const id = $(this).data('id');
+                const row = $('#policy-row-' + id);
+
+
+                $.ajax({
+                    url: `/admin/policy/remove/${id}`,
+                    type: 'PUT',
+                    data: {
+                        _token: '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        if (response.success) {
+                            row.fadeOut(300, function() {
+                                $(this).remove();
+                            });
+                            table.row.add([
+                                response.policy.code,
+                                response.policy.plan_reference,
+                                response.policy.first_name + ', ' + response.policy
+                                .last_name,
+                                response.policy.investment_house,
+                                '<a href = "javascript:void(0);" class = "text-site1 assign-policy" data-staff-id = "${staffId}" data-id = "${id}"" title = "Add Client" > < i class = "fa fa-plus" > </i></a >'
+                            ]).draw();
+                        } else {
+                            alert('Failed to remove policy.');
+                        }
+                    },
+                    error: function() {
+                        alert('Something went wrong.');
+                    }
+                });
+            });
+
+            $(document).on('click', '.assign-policy', function(e) {
+                e.preventDefault();
+
+                const id = $(this).data('id');
+                const staffId = $(this).data('staff-id');
+                const row = $('#policy-unasigned-row-' + id);
+                console.log(id, staffId);
+
+
+                $.ajax({
+                    url: `/admin/policy/${id}/${staffId}`,
+                    type: 'PUT',
+                    data: {
+                        _token: '{{ csrf_token() }}'
+
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        if (response.success) {
+                            row.fadeOut(300, function() {
+                                $(this).remove();
+                            });
+                            const newRow = `
+                                    <tr id="policy-row-${id}">
+                                        <td>${response.policy.code}</td>
+                                        <td>${response.policy.plan_reference}</td>
+                                        <td>${response.policy.first_name}, ${response.policy.last_name}</td>
+                                        <td>${response.policy.investment_house}</td>
+                                        <td>${response.policy.last_operation ?? ''}</td>
+                                        <td>
+                                            <a href="javascript:void(0);" title="Remove"
+                                            class="text-danger remove-policy"
+                                            data-id="${id}">Remove
+                                            </a>
+                                        </td>
+                                    </tr>
+                            `;
+                            $('#assignment-table tbody').append(newRow);
+                        } else {
+                            alert('Failed to asign policy.');
+                        }
+                    },
+                    error: function() {
+                        alert('Something went wrong.');
+                    }
+                });
+            });
+
         });
     </script>
 
