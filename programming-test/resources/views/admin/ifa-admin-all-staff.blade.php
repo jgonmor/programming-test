@@ -136,108 +136,18 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>Tiger Nixon</td>
-                                    <td>email@example.com</td>
-                                    <td>27/09/2017</td>
-                                    <td><span class="label label-success">Active</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Garrett Winters</td>
-                                    <td>email@example.com</td>
-                                    <td>27/09/2017</td>
-                                    <td><span class="label label-success">Active</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Airi Satou</td>
-                                    <td>email@example.com</td>
-                                    <td>27/09/2017</td>
-                                    <td><span class="label label-success">Active</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Brielle Williamson</td>
-                                    <td>email@example.com</td>
-                                    <td>27/09/2017</td>
-                                    <td><span class="label label-success">Active</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Herrod Chandler</td>
-                                    <td>email@example.com</td>
-                                    <td>-</td>
-                                    <td><span class="label label-info">Invitation Sent</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Rhona Davidson</td>
-                                    <td>email@example.com</td>
-                                    <td>27/09/2017</td>
-                                    <td><span class="label label-success">Active</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Colleen Hurst</td>
-                                    <td>email@example.com</td>
-                                    <td>-</td>
-                                    <td><span class="label label-info">Invitation Sent</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Sonya Frost</td>
-                                    <td>email@example.com</td>
-                                    <td>27/09/2017</td>
-                                    <td><span class="label label-success">Active</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Jena Gaines</td>
-                                    <td>email@example.com</td>
-                                    <td>27/09/2017</td>
-                                    <td><span class="label label-success">Active</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Quinn Flynn</td>
-                                    <td>email@example.com</td>
-                                    <td>27/09/2017</td>
-                                    <td><span class="label label-success">Active</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Charde Marshall</td>
-                                    <td>email@example.com</td>
-                                    <td>27/09/2017</td>
-                                    <td><span class="label label-success">Active</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Haley Kennedy</td>
-                                    <td>email@example.com</td>
-                                    <td>-</td>
-                                    <td><span class="label label-info">Invitation Sent</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Tatyana Fitzpatrick</td>
-                                    <td>email@example.com</td>
-                                    <td>27/09/2017</td>
-                                    <td><span class="label label-success">Active</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Michael Silva</td>
-                                    <td>email@example.com</td>
-                                    <td>27/09/2017</td>
-                                    <td><span class="label label-success">Active</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Paul Byrd</td>
-                                    <td>email@example.com</td>
-                                    <td>27/09/2017</td>
-                                    <td><span class="label label-success">Active</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Gloria Little</td>
-                                    <td>email@example.com</td>
-                                    <td>27/09/2017</td>
-                                    <td><span class="label label-success">Active</span></td>
-                                </tr>
-                                <tr>
-                                    <td>Bradley Greer</td>
-                                    <td>email@example.com</td>
-                                    <td>27/09/2017</td>
-                                    <td><span class="label label-success">Active</span></td>
-                                </tr>
+                                @foreach ($staff as $staffmember)
+                                    <tr class="clickable-row" data-href="{{ route('admin.staff', $staffmember->id) }}">
+                                        <td>{{ $staffmember->name }}</td>
+                                        <td>{{ $staffmember->email }}</td>
+                                        <td>{{ $staffmember->updated_at->format('d/m/Y') }}</td>
+                                        @if ($staffmember->status == 'active')
+                                            <td><span class="label label-success">Active</span></td>
+                                        @else
+                                            <td><span class="label label-info">Invitation Sent</span></td>
+                                        @endif
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -337,6 +247,10 @@
             });
 
             table.buttons().container().appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
+
+            $('.clickable-row').on('click', function() {
+                window.location = $(this).data('href');
+            });
         });
     </script>
 
