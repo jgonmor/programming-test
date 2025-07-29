@@ -18,7 +18,7 @@ class PolicyFactory extends Factory
     {
         return [
             'code' => $this->faker->unique()->randomNumber(5),
-            'plan_reference' => $this->faker->unique()->randomNumber(5),
+            'plan_reference' => "The Calpe RBS No. 247",
             'first_name' => $this->faker->name(),
             'last_name' => $this->faker->name(),
             'investment_house' => $this->faker->name(),
