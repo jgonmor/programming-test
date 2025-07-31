@@ -7,21 +7,20 @@
     <meta name="description" content="A fully featured admin theme which can be used to build CRM, CMS, etc.">
     <meta name="author" content="Coderthemes">
 
-    <link rel="shortcut icon" href="assets/images/favicon.ico">
+    <title>Staff</title>
 
-    <title>Dashboard</title>
-
-    <link rel="stylesheet" type="text/css" href="{{ asset('plugins/morris/morris.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('plugins/switchery/switchery.min.css') }}" />
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}" />
+    <link rel="shortcut icon" href="{{ asset('images/favicon.ico') }}">
 
     <link href="{{ asset('plugins/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('plugins/datatables/buttons.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
     <link href="{{ asset('plugins/datatables/responsive.bootstrap4.min.css') }}" rel="stylesheet" type="text/css" />
 
-    <link rel="stylesheet" type="text/css" href="{{ asset('css/style.css') }}" />
-    <!-- Modernizr js -->
+    <link href="{{ asset('plugins/switchery/switchery.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" type="text/css" />
+    <link href="{{ asset('css/style.css') }}" rel="stylesheet" type="text/css" />
+
     <script src="{{ asset('js/modernizr.min.js') }}"></script>
+
 </head>
 
 
@@ -60,7 +59,7 @@
                         <li class="list-inline-item dropdown notification-list">
                             <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown"
                                 href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                <img src="{{ asset('images/users/avatar.jpg') }}" alt="user" class="rounded-circle">
+                                <img src="assets/images/users/avatar.jpg" alt="user" class="rounded-circle">
                                 <h5 class="text-overflow"><small>IFA Staff</small> </h5>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right profile-dropdown " aria-labelledby="Preview">
@@ -109,59 +108,72 @@
 
             <!-- Page-Title -->
             <div class="row">
-                <div class="col-sm-12">
-                    <h4 class="page-title">Dashboard</h4>
+                <div class="col-sm-12" style="padding-bottom: 20px;">
+
                 </div>
             </div>
+            <!-- end row -->
+
+
             <div class="row">
                 <div class="col-12">
                     <div class="card-box table-responsive">
                         <div class="header">
-                            <h3>Policies</h3>
+                            <h3>View Policy</h3>
                         </div>
 
-                        <table id="datatable-buttons" class="table table-striped table-bordered" cellspacing="0"
-                            width="100%">
-                            <thead>
-                                <tr>
-                                    <th>Policy</th>
-                                    <th>Plan Reference</th>
-                                    <th>Member Name</th>
-                                    <th>Investment House</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if ($policies->isEmpty())
-                                    <tr>
-                                        <td colspan="4">There are no policies. Please contact your administrator.
-                                        </td>
-                                    </tr>
-                                @else
-                                    @foreach ($policies as $policy)
-                                        <tr class="clickable-row" data-href="{{ route('staff.policy', $policy->id) }}">
-                                            <td>{{ $policy->code }}</td>
-                                            <td>{{ $policy->plan_reference }}</td>
-                                            <td>{{ $policy->first_name }}, {{ $policy->last_name }}</td>
-                                            <td>{{ $policy->investment_house }}</td>
-                                        </tr>
-                                    @endforeach
+                        <div class="col-12 padded padded-bottom padded-la">
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+                                    <label>Code</label>
+                                    <input type="text" name="firstname" class="form-control" disabled
+                                        value="{{ $policy->code }}" />
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+                                    <label>Last Name</label>
+                                    <input type="text" name="firstname" class="form-control" disabled
+                                        value="{{ $policy->plan_reference }}" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+                                    <label>Investment</label>
+                                    <input type="text" name="firstname" class="form-control" disabled
+                                        value="{{ $policy->investment_house }}" />
+                                </div>
+                                <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
+                                    <label>Last Operation</label>
+                                    <input type="text" name="firstname" class="form-control" disabled
+                                        value="{{ $policy->last_operation }}" />
+                                </div>
+                            </div>
+                        </div>
 
-                                @endif
-                            </tbody>
-                        </table>
+                        <div class="row padded">
+                            <div class="col-6 padded padded-top">
+                                <a href="{{ route('staff', Auth::user()->id) }}" title="Go back"
+                                    class="btn btn-success"> <- Back to dashboard</a>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
 
-        </div> <!-- container -->
+            <!-- Modal -->
 
 
-        <!-- Footer -->
-        <footer class="footer">
-            &copy; 2017. All Righs Reserved.
-        </footer>
-        <!-- End Footer -->
+        </div>
+        <!-- end row -->
 
+
+    </div> <!-- container -->
+
+
+    <!-- Footer -->
+    <footer class="footer">
+        &copy; 2017. All Righs Reserved.
+    </footer>
+    <!-- End Footer -->
 
     </div> <!-- End wrapper -->
 
@@ -180,56 +192,11 @@
     <script src="{{ asset('js/jquery.nicescroll.js') }}"></script>
     <script src="{{ asset('plugins/switchery/switchery.min.js') }}"></script>
 
-    <!--Morris Chart-->
-    <script src="{{ asset('plugins/morris/morris.min.js') }}"></script>
-    <script src="{{ asset('plugins/raphael/raphael-min.js') }}"></script>
-
-    <!-- Required datatable js -->
-    <script src="{{ asset('plugins/datatables/jquery.dataTables.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables/dataTables.bootstrap4.min.js') }}"></script>
-
-    <!-- Buttons examples -->
-    <script src="{{ asset('plugins/datatables/dataTables.buttons.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables/buttons.bootstrap4.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables/jszip.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables/pdfmake.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables/vfs_fonts.js') }}"></script>
-    <script src="{{ asset('plugins/datatables/buttons.html5.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables/buttons.print.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables/buttons.colVis.min.js') }}"></script>
-
-    <!-- Responsive examples -->
-    <script src="{{ asset('plugins/datatables/dataTables.responsive.min.js') }}"></script>
-    <script src="{{ asset('plugins/datatables/responsive.bootstrap4.min.js') }}"></script>
-
-    <!-- Counter Up  -->
-    <script src="{{ asset('plugins/waypoints/lib/jquery.waypoints.min.js') }}"></script>
-    <script src="{{ asset('plugins/counterup/jquery.counterup.min.js') }}"></script>
 
     <!-- App js -->
     <script src="{{ asset('js/jquery.core.js') }}"></script>
     <script src="{{ asset('js/jquery.app.js') }}"></script>
 
-    <!-- Page specific js -->
-    <script src="{{ asset('pages/jquery.dashboard.js') }}"></script>
-
-    <script type="text/javascript">
-        $(document).ready(function() {
-            $('#datatable').DataTable();
-
-            //Buttons examples
-            var table = $('#datatable-buttons').DataTable({
-                lengthChange: false
-                //buttons: ['copy', 'excel', 'pdf']
-            });
-
-            table.buttons().container().appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
-
-            $('.clickable-row').on('click', function() {
-                window.location = $(this).data('href');
-            });
-        });
-    </script>
 </body>
 
 </html>
