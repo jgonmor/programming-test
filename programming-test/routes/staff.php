@@ -1,7 +1,6 @@
 <?php
 
+use App\Http\Controllers\StaffController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('staff.ifa-staff-dashboard');
-});
+Route::get('dashboard/{user_id}', [StaffController::class, 'index'])->name('staff');

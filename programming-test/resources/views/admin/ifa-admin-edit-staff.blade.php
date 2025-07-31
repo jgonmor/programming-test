@@ -63,7 +63,7 @@
                                 <h5 class="text-overflow"><small>IFA Administrator</small> </h5>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right profile-dropdown " aria-labelledby="Preview">
-                                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                <a href="{{ route('logout') }}" class="dropdown-item notify-item">
                                     <i class="zmdi zmdi-power"></i> <span>Logout</span>
                                 </a>
 
@@ -121,7 +121,8 @@
                             <h3>Edit Staff</h3>
                         </div>
 
-                        <form class="col-12 padded padded-bottom padded-la">
+                        <form class="col-12 padded padded-bottom padded-la" method="POST" id="staff-update-form">
+                            @csrf
                             <div class="row">
                                 <div class="col-xs-12 col-sm-6 col-md-6 col-lg-3">
                                     <label>Name</label>
@@ -191,13 +192,13 @@
 
                             <div class="row padded">
                                 <div class="col-6">
-                                    <button type="submit" name="submit" class="btn btn-success"><i
-                                            class="fa fa-floppy-o"></i> Save</button>
+                                    <button type="submit" name="submit" class="btn btn-success"
+                                        id="save-staff-btn"><i class="fa fa-floppy-o"></i> Save</button>
 
                                 </div>
                                 <div class="col-6 text-right padded padded-top">
-                                    <a href="#" title="Remove User" class="text-danger"><i
-                                            class="fa fa-trash"></i> Remove Staff</a>
+                                    <a href="#" title="Remove User" class="text-danger"
+                                        id="remove-staff-btn"><i class="fa fa-trash"></i> Remove Staff</a>
                                 </div>
                             </div>
                         </div>
@@ -284,6 +285,8 @@
     <script>
         var resizefunc = [];
         const staffId = @json($staff->id);
+        const staffUpdateUrl = '{{ route('admin.staff.update', $staff->id) }}';
+        const staffRemoveUrl = '{{ route('admin.staff.remove', $staff->id) }}';
     </script>
 
     <!-- jQuery  -->
@@ -329,9 +332,58 @@
 
             table.buttons().container().appendTo('#datatable-buttons_wrapper .col-md-6:eq(0)');
 
-            //Todoo fix this
+
+            $('#save-staff-btn').on('click', function(e) {
+                console.log('Url', staffUpdateUrl);
+
+
+                const form = $('#staff-update-form');
+
+
+                $.ajax({
+                    url: staffUpdateUrl,
+                    method: 'PUT',
+                    data: form.serialize(),
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        window.location.href = '/admin';
+
+                    },
+                    error: function(xhr) {
+                        console.error(xhr);
+                        alert('Failed to update staff.');
+                    }
+                });
+            });
+
+            $('#remove-staff-btn').on('click', function(e) {
+                console.log('Url', staffUpdateUrl);
+
+                $.ajax({
+                    url: staffRemoveUrl,
+                    method: 'DELETE',
+                    headers: {
+                        'X-CSRF-TOKEN': '{{ csrf_token() }}'
+                    },
+                    success: function(response) {
+                        console.log(response);
+                        window.location.href = '/admin';
+
+                    },
+                    error: function(xhr) {
+                        console.error(xhr);
+                        alert('Failed to delete staff.');
+                    }
+                });
+            });
+
+
+            //Todo fix this
             $(document).on('click', '.remove-policy', function(e) {
-                e.preventDefault();
+                //e.preventDefault();
 
                 const id = $(this).data('id');
                 const row = $('#policy-row-' + id);

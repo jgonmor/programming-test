@@ -57,11 +57,11 @@
                         <li class="list-inline-item dropdown notification-list">
                             <a class="nav-link dropdown-toggle waves-effect waves-light nav-user" data-toggle="dropdown"
                                 href="#" role="button" aria-haspopup="false" aria-expanded="false">
-                                <img src="assets/images/users/avatar.jpg" alt="user" class="rounded-circle">
+                                <img src="{{ asset('images/users/avatar.jpg') }}" alt="user" class="rounded-circle">
                                 <h5 class="text-overflow"><small>IFA Staff</small> </h5>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right profile-dropdown " aria-labelledby="Preview">
-                                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                <a href="{{ route('logout') }}" class="dropdown-item notify-item">
                                     <i class="zmdi zmdi-power"></i> <span>Logout</span>
                                 </a>
 
@@ -126,18 +126,22 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td>12345678</td>
-                                    <td>The Calpe RBS No. 247</td>
-                                    <td>Withrod, Martin Terence</td>
-                                    <td>Old Mutual International</td>
-                                </tr>
-                                <tr>
-                                    <td>12345678</td>
-                                    <td>The Calpe RBS No. 247</td>
-                                    <td>Withrod, Martin Terence</td>
-                                    <td>Old Mutual International</td>
-                                </tr>
+                                @if ($policies->isEmpty())
+                                    <tr>
+                                        <td colspan="4">There are no policies. Please contact your administrator.
+                                        </td>
+                                    </tr>
+                                @else
+                                    @foreach ($policies as $policy)
+                                        <tr>
+                                            <td>{{ $policy->code }}</td>
+                                            <td>{{ $policy->plan_reference }}</td>
+                                            <td>{{ $policy->first_name }}, {{ $policy->last_name }}</td>
+                                            <td>{{ $policy->investment_house }}</td>
+                                        </tr>
+                                    @endforeach
+
+                                @endif
                             </tbody>
                         </table>
                     </div>
@@ -164,27 +168,27 @@
     </script>
 
     <!-- jQuery  -->
-    <script src="assets/js/jquery.min.js"></script>
-    <script src="assets/js/popper.min.js"></script><!-- Tether for Bootstrap -->
-    <script src="assets/js/bootstrap.min.js"></script>
-    <script src="assets/js/waves.js"></script>
-    <script src="assets/js/jquery.nicescroll.js"></script>
-    <script src="assets/plugins/switchery/switchery.min.js"></script>
+    <script src="{{ asset('js/jquery.min.js') }}"></script>
+    <script src="{{ asset('js/popper.min.js') }}"></script><!-- Tether for Bootstrap -->
+    <script src="{{ asset('js/bootstrap.min.js') }}"></script>
+    <script src="{{ asset('js/waves.js') }}"></script>
+    <script src="{{ asset('js/jquery.nicescroll.js') }}"></script>
+    <script src="{{ asset('plugins/switchery/switchery.min.js') }}"></script>
 
     <!--Morris Chart-->
-    <script src="assets/plugins/morris/morris.min.js"></script>
-    <script src="assets/plugins/raphael/raphael-min.js"></script>
+    <script src="{{ asset('plugins/morris/morris.min.js') }}"></script>
+    <script src="{{ asset('plugins/raphael/raphael-min.js') }}"></script>
 
     <!-- Counter Up  -->
-    <script src="assets/plugins/waypoints/lib/jquery.waypoints.min.js"></script>
-    <script src="assets/plugins/counterup/jquery.counterup.min.js"></script>
+    <script src="{{ asset('plugins/waypoints/lib/jquery.waypoints.min.js') }}"></script>
+    <script src="{{ asset('plugins/counterup/jquery.counterup.min.js') }}"></script>
 
     <!-- App js -->
-    <script src="assets/js/jquery.core.js"></script>
-    <script src="assets/js/jquery.app.js"></script>
+    <script src="{{ asset('js/jquery.core.js') }}"></script>
+    <script src="{{ asset('js/jquery.app.js') }}"></script>
 
     <!-- Page specific js -->
-    <script src="assets/pages/jquery.dashboard.js"></script>
+    <script src="{{ asset('pages/jquery.dashboard.js') }}"></script>
 </body>
 
 </html>

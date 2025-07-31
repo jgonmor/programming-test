@@ -24,12 +24,21 @@ class LoginController extends Controller
             if ($user->role->name == 'admin') {
                 return redirect()->route('admin');
             } else {
-                return redirect()->route('staff');
+                return redirect()->route('staff', $user->id);
             }
         }
 
         return back()->withErrors([
             'email' => 'Invalid credentials.',
         ])->withInput();
+    }
+
+    public function logout(Request $request)
+    {
+        Auth::logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login');
     }
 }

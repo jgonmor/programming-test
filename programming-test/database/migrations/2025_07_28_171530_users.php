@@ -21,6 +21,7 @@ return new class extends Migration
             $table->string('status')->default('invitation sent');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -64,7 +64,7 @@
                                 <h5 class="text-overflow"><small>IFA Administrator</small> </h5>
                             </a>
                             <div class="dropdown-menu dropdown-menu-right profile-dropdown " aria-labelledby="Preview">
-                                <a href="javascript:void(0);" class="dropdown-item notify-item">
+                                <a href="{{ route('logout') }}" class="dropdown-item notify-item">
                                     <i class="zmdi zmdi-power"></i> <span>Logout</span>
                                 </a>
 
@@ -165,7 +165,8 @@
                                 </button>
                             </div>
                             <div class="modal-body">
-                                <form>
+                                <form method="POST" action="{{ route('admin.send-invitation') }}">
+                                    @csrf
                                     <fieldset class="form-group">
                                         <label>Name</label>
                                         <input type="text" name="name" class="form-control" required />

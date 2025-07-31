@@ -6,6 +6,7 @@ use App\Models\Role;
 use App\Models\User;
 use App\Models\Policy;
 use Illuminate\Http\Request;
+use App\Http\Services\InvitationService;
 
 class AdminController extends Controller
 {
@@ -22,10 +23,42 @@ class AdminController extends Controller
         return view('admin.ifa-admin-edit-staff', compact('staff', 'unasignedPolicy'));
     }
 
-    public function policy($id)
+    public function createStaff(Request $request)
     {
-        $policy = Policy::find($id);
-        return view('admin.ifa-admin-edit-policy', compact('policy'));
+        $validated = $request->validate([
+            'email' => 'required|email|unique:users',
+            'name' => 'required|string|max:255',
+        ]);
+
+        $invitationService = new InvitationService();
+
+        if ($invitationService->sendInvitation($validated['email'], $validated['name'])) {
+            return redirect()->back()->with('success', 'Invitation sent successfully.');
+        }
+
+        return redirect()->back()->with('error', 'Invitation failed.');
+    }
+
+    public function staffUpdate(Request $request, $id)
+    {
+        $staff = User::findOrFail($id);
+        $validated = $request->validate([
+            'firstname' => 'required|string|max:255',
+        ]);
+        $staff->name = $validated['firstname'];
+        $message = $staff->save();
+        return  response()->json([
+            'success' => true,
+            'message' => $message
+        ]);
+    }
+
+    public function staffRemove($id)
+    {
+        $staff = User::find($id);
+        Policy::where('user_id', 2)->update(['user_id' => null]);
+        $staff->delete();
+        return  response()->json(['success' => true]);
     }
 
     public function policyRemove($id)
