@@ -86,7 +86,7 @@
                     <!-- Navigation Menu-->
                     <ul class="navigation-menu">
                         <li class="active">
-                            <a href="ifa-admin-all-staff.html" title="Staff"><i class="fa fa-users"></i> <span>
+                            <a href="{{ route('admin') }}" title="Staff"><i class="fa fa-users"></i> <span>
                                     Staff</span> </a>
                         </li>
                     </ul>
