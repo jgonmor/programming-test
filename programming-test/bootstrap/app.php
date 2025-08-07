@@ -14,6 +14,7 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->alias([
             'role' => \App\Http\Middleware\RoleMiddleware::class,
             'staff.dashboard' => \App\Http\Middleware\StaffDashboard::class,
+            'staff.own-policy' => \App\Http\Middleware\OwnPolicy::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
